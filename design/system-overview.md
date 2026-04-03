@@ -32,10 +32,13 @@ Works through the Host which mediates on its behalf.
 
 ## Architecture Diagram
 
-Host
-├── Client ──► MCP Server (Database)
-├── Client ──► MCP Server (Documents)
-└── Client ──► MCP Server (Notifications)
-        ▲
-        │
-      Model
+                    Model
+                      │
+                      ▼
+                    Host
+                      │
+                    Client
+                   /  |  \
+                  ▼   ▼   ▼
+         Server     Server     Server
+        (Database) (Documents) (Notifications)
