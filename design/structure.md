@@ -31,4 +31,4 @@ No persistent state between sessions at this stage.
 Will revisit when long-running workflows are introduced.
 ```
 
-לאחר מכן צור את שלד התיקיות הבא בריפוזיטורי
+
