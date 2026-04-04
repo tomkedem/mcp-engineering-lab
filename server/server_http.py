@@ -11,6 +11,7 @@ from server.config import config
 from server.logging import safe_logger
 from server.metrics import metrics
 from server.server import server
+from server.discovery import handle_server_card
 
 
 # ─── Session Management ─────────────────────────────────────────────────────────
@@ -207,6 +208,7 @@ async def handle_reject(request: web.Request) -> web.Response:
         )
 
 
+    return app
 # ─── Application Setup ──────────────────────────────────────────────────────────
 
 def create_app() -> web.Application:
@@ -226,6 +228,10 @@ def create_app() -> web.Application:
 
     app.router.add_post("/mcp", handle_mcp)
     app.router.add_get("/health", handle_health)
+    app.router.add_get(
+        "/.well-known/mcp-server-card.json",
+        handle_server_card
+    )
     app.router.add_post(
         "/approvals/{request_id}/approve",
         handle_approve
@@ -263,3 +269,4 @@ if __name__ == "__main__":
 
     app = create_app()
     web.run_app(app, host="0.0.0.0", port=config.PORT)
+    
