@@ -1,0 +1,57 @@
+# .github/workflows/ci.yml
+name: MCP Server CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          cd server
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio
+
+      - name: Run contract tests
+        run: |
+          cd server
+          pytest tests/test_contracts.py -v
+
+      - name: Run security tests
+        run: |
+          cd server
+          pytest tests/test_security.py -v
+
+      - name: Run integration tests
+        run: |
+          cd server
+          pytest tests/test_integration.py -v
+
+      - name: Validate capabilities hash
+        run: |
+          cd server
+          python scripts/validate_capabilities.py
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy to production
+        run: |
+          echo "Deploy step configured per your infrastructure"
