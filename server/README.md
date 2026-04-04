@@ -105,6 +105,7 @@ server/
 ├── utils.py           shared utilities
 ├── server.py          MCP server instance and STDIO entry point
 ├── server_http.py     HTTP entry point for production
+├── discovery.py       Server Card handler
 ├── tools/             tool definitions and execution logic
 ├── resources/         resource definitions and read logic
 ├── tests/             automated tests
